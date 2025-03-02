@@ -1,5 +1,4 @@
-FROM hyperledger/besu:latest
-
+FROM hyperledger/besu:25.2.1
 WORKDIR /opt/cartesi-snapshot/
 
 COPY ./data ./data
