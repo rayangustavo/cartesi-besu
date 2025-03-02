@@ -1,6 +1,6 @@
 {
     "config": {
-      "berlinBlock": 0,
+      "londonBlock": 0,
       "ethash": {
         "fixeddifficulty": 1000
       },
