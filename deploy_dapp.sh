@@ -1,8 +1,16 @@
 #!/bin/bash
 
-if [ $# != 1 ]; then
+# DEFAULT VALUES
+RPC_URL="http://localhost:8545"
+WS_URL="ws://localhost:8546"
+
+if [ $# == 0 ]; then
     echo "Missing parameters: <path_to_cartesi_dapp>"
     exit 1
+
+elif [ $# == 3 ]; then
+    RPC_URL=$2
+    WS_URL=$3
 fi
 
 # 1) get machine hash
@@ -21,7 +29,6 @@ echo -e "Deploying for machine:  $MACHINE_HASH_0x\n"
 DEPLOYER_CONTRACT_ADDR="0x9E32e06Fd23675b2DF8eA8e6b0A25c3DF6a60AbC"
 DAPP_OWNER_ADDR="0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
 DAPP_OWNER_PK="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
-RPC_URL="http://localhost:8545"
 TX_RECEIPT="deploy_tx_receipt.json"
 
 # 2) deploy the DApp
@@ -34,8 +41,8 @@ CARTESI_CONTRACTS_INPUT_BOX_ADDRESS=0x59b22D57D4f067708AB0c00552767405926dc768
 CARTESI_CONTRACTS_INPUT_BOX_DEPLOYMENT_BLOCK_NUMBER=1
 CARTESI_EPOCH_LENGTH=720
 CARTESI_AUTH_MNEMONIC=test test test test test test test test test test test junk
-CARTESI_BLOCKCHAIN_HTTP_ENDPOINT=http://localhost:8545
-CARTESI_BLOCKCHAIN_WS_ENDPOINT=ws://localhost:8546" > ${CARTESI_NODE_ENV_FILE}
+CARTESI_BLOCKCHAIN_HTTP_ENDPOINT=${RPC_URL}
+CARTESI_BLOCKCHAIN_WS_ENDPOINT=${WS_URL}" > ${CARTESI_NODE_ENV_FILE}
 
 # 3) Extract informations from deploy logs
 AUTHORITY_FACTORY_ADDR="0xf26a5b278c25d8d41a136d22ad719eaced9c3e63"
