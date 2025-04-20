@@ -32,11 +32,15 @@ DAPP_OWNER_PK="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff8
 TX_RECEIPT="deploy_tx_receipt.json"
 
 # 2) deploy the DApp
-docker run --rm --net="host" ghcr.io/foundry-rs/foundry "cast send --json --private-key $DAPP_OWNER_PK --rpc-url $RPC_URL $DEPLOYER_CONTRACT_ADDR \"deployContracts(address _authorityOwner, address _dappOwner, bytes32 _templateHash, bytes32 _salt)\" $DAPP_OWNER_ADDR $DAPP_OWNER_ADDR $MACHINE_HASH_0x 0x0000000000000000000000000000000000000000000000000000000000000000" > ${TX_RECEIPT}
+set -e
+set -o xtrace
+CHAIN_ID=`docker run --rm --net="host" ghcr.io/foundry-rs/foundry:stable "cast chain-id --rpc-url $RPC_URL"`
+SALT=`docker run --rm --net="host" ghcr.io/foundry-rs/foundry:stable "cast format-bytes32-string $(date +%s)"`
+docker run --rm --net="host" ghcr.io/foundry-rs/foundry:stable "cast send --json --private-key $DAPP_OWNER_PK --rpc-url $RPC_URL $DEPLOYER_CONTRACT_ADDR \"deployContracts(address,address,bytes32,bytes32)\" $DAPP_OWNER_ADDR $DAPP_OWNER_ADDR $MACHINE_HASH_0x ${SALT}" > ${TX_RECEIPT}
 
 CARTESI_NODE_ENV_FILE="$MACHINE_HASH_0x.env"
 echo "CARTESI_BLOCKCHAIN_FINALITY_OFFSET=1
-CARTESI_BLOCKCHAIN_ID=31337
+CARTESI_BLOCKCHAIN_ID=${CHAIN_ID}
 CARTESI_CONTRACTS_INPUT_BOX_ADDRESS=0x59b22D57D4f067708AB0c00552767405926dc768
 CARTESI_CONTRACTS_INPUT_BOX_DEPLOYMENT_BLOCK_NUMBER=1
 CARTESI_EPOCH_LENGTH=720

@@ -7,7 +7,7 @@
       "chainID": 31337
     },
     "nonce": "0x42",
-    "gasLimit": "0x1000000",
+    "gasLimit": "0x1000000000",
     "difficulty": "0x10000",
     "alloc": {
       "f39fd6e51aad88f6f4ce6ab8827279cfffb92266": {
