@@ -56,13 +56,13 @@ python3 - <<-EOF
 	f.close()
 	get_event_by_addr = lambda addr : [event for event in receipt["logs"] if event["address"].lower() == addr][0]
 	authority_creation_event = get_event_by_addr("${AUTHORITY_FACTORY_ADDR}")
-	dapp_authority_addr = f"0x{authority_creation_event["data"][-40:]}"
+	dapp_authority_addr = f"0x{authority_creation_event['data'][-40:]}"
 	print("DApp Authority address:", dapp_authority_addr)
 	history_creation_event = get_event_by_addr("${HISTORY_FACTORY_ADDR}")
-	dapp_history_addr = f"0x{history_creation_event["data"][-40:]}"
+	dapp_history_addr = f"0x{history_creation_event['data'][-40:]}"
 	print("DApp History address:  ", dapp_history_addr)
 	dapp_creation_event = get_event_by_addr("${CARTESI_DAPP_FACTORY_ADDR}")
-	dapp_addr = f"0x{dapp_creation_event["data"][-40:]}"
+	dapp_addr = f"0x{dapp_creation_event['data'][-40:]}"
 	print("DApp address:          ", dapp_addr)
 	node_env_file = open("${CARTESI_NODE_ENV_FILE}", "a")
 	print(f"CARTESI_CONTRACTS_APPLICATION_ADDRESS={dapp_addr}", file=node_env_file)
