@@ -35,7 +35,7 @@ docker run --name cartesi-node-postgres -e POSTGRES_PASSWORD=mysecretpassword -d
 Now, add the Postgres URL to the <machine_hash>.env generated previously. The URL changes according to the values chosen when running the database, but considering our example, you should use the following value:
 
 ```
-CARTESI_POSTGRES_ENDPOINT=postgres://postgres:mysecretpassword@localhost:15432/postgres
+CARTESI_POSTGRES_ENDPOINT=postgres://postgres:mysecretpassword@host.docker.internal:15432/postgres
 ```
 
 Build the node Docker Image.
@@ -45,7 +45,7 @@ cartesi deploy build --platform linux/amd64
 
 Finally, run the Cartesi Node
 ``` shell
-docker run --env-file <.node.env> -p 10000:10000 --net=host <cartesi-machine-image-id>
+docker run --env-file <.node.env> -p 10000:10000 --add-host host.docker.internal=host-gateway <cartesi-machine-image-id>
 ```
 
 ## 4 - Interacting with the Cartesi Rollup Application
